@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/jacobwsmith19/liri-node-app/issues"
   },
-  "homepage": "https://github.com/jacobwsmith19/liri-node-app#readme"
+  "homepage": "https://github.com/jacobwsmith19/liri-node-app#readme",
+  "dependencies": {
+    "moment": "^2.24.0"
+  }
 }
