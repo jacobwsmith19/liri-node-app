@@ -1,0 +1,136 @@
+C:\Program Files\nodejs\node.exe C:\Coding\liri-node-app\liri.js spotify-this-song here comes the sunArtist(s): The Beatles
+Song name: Here Comes The Sun - Remastered 2009
+Preview: null
+Album: Abbey Road (Remastered)
+C:\Program Files\nodejs\node.exe C:\Coding\liri-node-app\liri.js concert-this beck----------------------------------------------
+Venue: Sunlight Supply Amphitheater
+Location: Ridgefield, WA
+Date: 07/11/2019
+----------------------------------------------
+Venue: Gorge Amphitheatre
+Location: George, WA
+Date: 07/13/2019
+----------------------------------------------
+Venue: Shoreline Amphitheatre
+Location: Mountain View, CA
+Date: 07/16/2019
+----------------------------------------------
+Venue: FivePoint Amphitheater
+Location: Irvine, CA
+Date: 07/17/2019
+----------------------------------------------
+Venue: Ak-Chin Pavilion
+Location: Phoenix, AZ
+Date: 07/21/2019
+----------------------------------------------
+Venue: North Island Credit Union Amphitheatre
+Location: Chula Vista, CA
+Date: 07/20/2019
+----------------------------------------------
+Venue: Fiddler's Green Amphitheatre
+Location: Denver, CO
+Date: 07/23/2019
+----------------------------------------------
+Venue: Park Theater
+Location: Las Vegas, NV
+Date: 07/19/2019
+----------------------------------------------
+Venue: Cynthia Woods Mitchell Center for the Arts
+Location: Houston, TX
+Date: 07/28/2019
+----------------------------------------------
+Venue: Austin 360 Amphitheater
+Location: Austin, TX
+Date: 07/26/2019
+----------------------------------------------
+Venue: The Dos Equis Pavilion
+Location: Dallas, TX
+Date: 07/27/2019
+----------------------------------------------
+Venue: Huntington Bank Pavilion at Northerly Island
+Location: Chicago, IL
+Date: 07/31/2019
+----------------------------------------------
+Venue: Riverbend Music Center
+Location: Cincinnati, OH
+Date: 08/02/2019
+----------------------------------------------
+Venue: Hollywood Casino Amphitheater
+Location: St. Louis, MO
+Date: 07/30/2019
+----------------------------------------------
+Venue: Ruoff Home Mortgage Music Center
+Location: Indianapolis, IN
+Date: 08/04/2019
+----------------------------------------------
+Venue: Saratoga Performing Arts Center
+Location: Saratoga Springs, NY
+Date: 08/12/2019
+----------------------------------------------
+Venue: Darien Lake Amphitheater
+Location: Darien Center, NY
+Date: 08/13/2019
+----------------------------------------------
+Venue: DTE Energy Music theater
+Location: Detroit, MI
+Date: 08/03/2019
+----------------------------------------------
+Venue: Xfinity Center
+Location: Mansfield, MA
+Date: 08/15/2019
+----------------------------------------------
+Venue: Bank of New Hampshire Pavilion
+Location: Gilford, NH
+Date: 08/16/2019
+----------------------------------------------
+Venue: Budweiser Stage
+Location: Toronto, 
+Date: 08/11/2019
+----------------------------------------------
+Venue: PNC Bank Arts Center
+Location: Holmdel, NJ
+Date: 08/20/2019
+----------------------------------------------
+Venue: BB&T Pavilion
+Location: Camden, NJ
+Date: 08/21/2019
+----------------------------------------------
+Venue: Merriweather Post Pavilion
+Location: Columbia, MD
+Date: 08/22/2019
+----------------------------------------------
+Venue: Coastal Credit Union Music Park at Walnut Creek
+Location: Raleigh, NC
+Date: 08/24/2019
+----------------------------------------------
+Venue: PNC Music Pavilion
+Location: Charlotte, NC
+Date: 08/25/2019
+----------------------------------------------
+Venue: Oak Mountain Amphitheater
+Location: Birmingham, AL
+Date: 08/27/2019
+----------------------------------------------
+Venue: MIDFLORIDA Credit Union Amphitheatre
+Location: Tampa, FL
+Date: 08/29/2019
+----------------------------------------------
+Venue: Forest Hills Stadium
+Location: New York City, NY
+Date: 08/17/2019
+----------------------------------------------
+Venue: Coral Sky Amphitheatre
+Location: West Palm Beach, FL
+Date: 08/30/2019
+C:\Program Files\nodejs\node.exe C:\Coding\liri-node-app\liri.js spotify-this-song new pollutionArtist(s): Beck
+Song name: The New Pollution
+Preview: null
+Album: Odelay
+C:\Program Files\nodejs\node.exe C:\Coding\liri-node-app\liri.js spotify-this-song new pollutionArtist(s): Beck
+Song name: The New Pollution
+Preview: null
+Album: Odelay
+C:\Program Files\nodejs\node.exe C:\Coding\liri-node-app\liri.js spotify-this-song new pollutionArtist(s): Beck
+Song name: The New Pollution
+Preview: null
+Album: Odelay
