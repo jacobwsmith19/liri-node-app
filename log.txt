@@ -134,3 +134,4 @@ C:\Program Files\nodejs\node.exe C:\Coding\liri-node-app\liri.js spotify-this-so
 Song name: The New Pollution
 Preview: null
 Album: Odelay
+concert-this,concert-this,beck,concert-this,spotify-this-song,movie-this,do-what-it-says,concert-this,spotify-this-song,

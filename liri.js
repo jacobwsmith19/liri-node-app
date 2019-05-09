@@ -1,180 +1,119 @@
 require("dotenv").config();
 
-var request = require("request");
-var moment = require("moment");
-var spotify = new Spotify(keys.spotify);
-var Spotify = require("node-spotify-api");
-var keys = require("./keys.js");
 var fs = require("fs");
-var command = process.argv[2];
-var input = process.argv[3];
+var moment = require('moment');
+var axios = require("axios");
+const keys = require("./keys.js");
+const Spotify = require('node-spotify-api');
+let spotify = new Spotify(keys.spotify);
+let command = process.argv[2]
+let searchTerm = process.argv[3]
 
-if (command == "concert-this") {
-    var bandsURL = "https://rest.bandsintown.com/artists/" + input + "/events?app_id=codingbootcamp";
-    request(bandsURL, function(error, response, body){
-        if (!error && response.statusCode === 200) {
-            var output = JSON.parse(body);
-            for(i=0; i<output.length; i++){
-                console.log("Venue: " + output[i].venue.name);
-                console.log("Location: " + output[i].venue.city + ", " + output[i].venue.region);
-                console.log("Date: " + moment(output[i].datetime).format("MM/DD/YYYY"));
-                console.log(" ");
-            }
-        }
-    })
+fs.appendFile('log.txt', command + ",", function (err) {
+    if (err) throw err;
+});
+
+switch (command){
+    case "concert-this":  
+        bandsInTown(searchTerm);
+        break;
+    case "spotify-this-song":  
+        spotifyThisSong(searchTerm);
+        break;
+    case "movie-this":  
+        movieThis(searchTerm);
+        break;
+    case "do-what-it-says":  
+        doRandom();
+    break;
 }
-
-else if (command == "spotify-this-song") {
-    if (input === undefined) {
-        console.log("Artist: Ace of Base");
-        console.log("Song Name: The Sign");
-        console.log("Spotify Link: https://open.spotify.com/track/3DYVWvPh3kGwPasp7yjahc?autoplay=true&v=T");
-        console.log("Album: Happy Nation");
+    
+    function bandsInTown(artist) {
+        var queryUrl = "https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp";
+        axios.get(queryUrl).then(
+            function(response) {
+                if(response.data[0].venue !=  undefined) {
+                    console.log("Event Veunue: " + response.data[0].venue.name);
+                    console.log("Event Location: " + response.data[0].venue.city);
+                    var eventDateTime = moment(response.data[0].datetime);
+                    console.log("Event Date & Time: " + eventDateTime.format("dddd, MMMM Do YYYY"));
+                }
+                else {
+                    console.log("No results found.");
+                }
+            }
+        ).catch(function (error) {
+            console.log (error);
+      });
     }
-    else {
-        spotify.search({ type: "track", query: input})
+
+    function spotifyThisSong(song) {
+        spotify
+        .search({ type: 'track', query: song })
         .then(function(response){
-            var output = response.tracks.items;
-            for (i = 0; i < output.length; i++) {
-                var artists = output[i].artists;
-                for (j = 0; j < artists.length; j++) {
-                    console.log("Artist: " + artists[j].name);
-                }
-                console.log("Song name: " + output[i].name);
-                console.log("Spotify link: " + output[i].external_urls.spotify);
-                console.log("Album: " + output[i].album.name);
-                console.log(" ");
+            if (response.tracks.total === 0) {
+                spotifyError();
+            } else {
+                console.log("Artist: " + response.tracks.items[0].artists[0].name);
+                console.log("Track: " + response.tracks.items[0].name);
+                console.log("Preview URL: " + response.tracks.items[0].preview_url);
+                console.log("Album: " + response.tracks.items[0].album.name);
             }
-        })
-        .catch(function(err){
-            console.log(err);
-        })
+        }).catch(function (error) {  
+            console.log(error);
+            console.log("No Results found. Showing results for 'The Sign' by Ace of Base");
+      });
     }
-}
 
-else if (command == "movie-this") {
-    if (input === undefined) {
-        console.log("Title: Mr. Nobody");
-        console.log("The movie was made in: 2009");
-        console.log("IMDB Rating: 7.9");
-        console.log("Rotten Tomatoes Rating: 67%");
-        console.log("Produced in: Belgium");
-        console.log("Languages: English");
-        console.log("Plot: A boy stands on a station platform as a train is about to leave. Should he go with his mother or stay with his father? Infinite possibilities arise from this decision. As long as he doesn't choose, anything is possible.");
-        console.log("Actors: Jared Leto, Sarah Polley, Diane Kruger, Linh Dan Pham, Rhys Ifans, Natasha Little");
-    }
-    else {
-        var omdbURL = "http://www.omdbapi.com/?t=" + input + "&y=&plot=short&apikey=trilogy";
-        request(omdbURL, function(error, response, body){
-
-            if (!error && response.statusCode === 200) {
-                console.log("Title: " + JSON.parse(body).Title);
-                console.log("The movie was made in: " + JSON.parse(body).Year);
-                console.log("IMDB Rating: " + JSON.parse(body).imdbRating);
-                var ratings = JSON.parse(body).Ratings;
-                for(i=0;i<ratings.length;i++){
-                    if(ratings[i].Source == "Rotten Tomatoes"){
-                        console.log("Rotten Tomatoes Rating: " + ratings[i].Value);
-                    }
+    function spotifyError() {
+        spotify
+        .search({ type: 'track', query: 'The Sign' })
+        .then(function(response) {
+            for (var i=0;i < response.tracks.items.length; i++) {
+                if (response.tracks.items[i].artists[0].name === "Ace of Base") {
+                    console.log("Artist: " + response.tracks.items[i].artists[0].name);
+                    console.log("Track: " + response.tracks.items[i].name);
+                    console.log("Preview URL: " + response.tracks.items[i].preview_url);
+                    console.log("Album: " + response.tracks.items[i].album.name);
+                    i = response.tracks.items.length;
                 }
-                console.log("Produced in: " + JSON.parse(body).Country);
-                console.log("Languages: " + JSON.parse(body).Language);
-                console.log("Plot: " + JSON.parse(body).Plot);
-                console.log("Actors: " + JSON.parse(body).Actors);
             }
-        
-        })
+        }).catch(function (error) {  
+            console.log(error);
+            console.log("No Results found. ");
+      });
     }
-}
 
-else if (command == "do-what-it-says") {
-    fs.readFile("random.txt", "utf8", function(error, data) {
-        
-        if(error){
-            return console.log(error);
-        }
-
-        var dataArr = data.split(",");
-
-        if(dataArr[0] == "concert-this"){
-            var bandsURL = "https://rest.bandsintown.com/artists/" + dataArr[1] + "/events?app_id=codingbootcamp";
-            request(bandsURL, function(error, response, body){
-                if (!error && response.statusCode === 200) {
-                    var output = JSON.parse(body);
-                    for(i=0; i<output.length; i++){
-                        console.log("Venue: " + output[i].venue.name);
-                        console.log("Location: " + output[i].venue.city + ", " + output[i].venue.region);
-                        console.log("Date: " + moment(output[i].datetime).format("MM/DD/YYYY"));
-                        console.log(" ");
-                    }
+    function movieThis(movie) {
+        axios.get("http://www.omdbapi.com/?t=" + movie + "&y=&plot=short&tomatoes=true&apikey=trilogy").then(
+            function(response) {
+                if (response.data.Title != undefined) {
+                    console.log("Title: " + response.data.Title);
+                    console.log("Year: " + response.data.Year);
+                    console.log("imdbRating:: " + response.data.imdbRating);
+                    console.log("Title: " + response.data.Title);
+                    console.log("Country:: " + response.data.Country);
+                    console.log("Language:: " + response.data.Language);
+                    console.log("Plot: " + response.data.Plot);
+                    console.log("Actors: " + response.data.Actors);
+                    console.log("RottenTomatoes: " + response.data.tomatoRating);
+                } 
+                else {
+                    movieThis("Mr. Nobody");
                 }
-            })
-        }
-        
-        else if(dataArr[0] == "spotify-this-song"){
-            if(dataArr[1] === undefined){
-                console.log("Artist: Ace of Base");
-                console.log("Song name: The Sign");
-                console.log("Spotify link: https://open.spotify.com/track/3DYVWvPh3kGwPasp7yjahc?autoplay=true&v=T");
-                console.log("Album: Happy Nation");
             }
-            else{
-                spotify.search({ type: "track", query: dataArr[1]})
-                .then(function(response){
-                    var output = response.tracks.items;
-                    for(i=0;i<output.length;i++){
-                        var artists = output[i].artists;
-                        for(j=0;j<artists.length;j++){
-                            console.log("Artist: " + artists[j].name);
-                        }
-                        console.log("Song name: " + output[i].name);
-                        console.log("Spotify link: " + output[i].external_urls.spotify);
-                        console.log("Album: " + output[i].album.name);
-                        console.log(" ");
-                    }
-                })
-                .catch(function(err){
-                    console.log(err);
-                })
+        ).catch(function (error) {  
+            console.log(error);
+            console.log("No results found.");
+        });
+    }
+
+    function doRandom() {
+        fs.readFile("random.txt", "utf8", function(error, data) {
+            var dataArr = data.split(",");
+            spotifyThisSong(dataArr[1])
+            if (error) {
+              return console.log(error);
             }
-        }
-        
-        else if(command == "movie-this"){
-            if(dataArr[0] === undefined){
-                console.log("Title: Mr. Nobody");
-                console.log("The movie was made in: 2009");
-                console.log("IMDB Rating: 7.9");
-                console.log("Rotten Tomatoes Rating: 67%");
-                console.log("Produced in: Belgium");
-                console.log("Languages: English");
-                console.log("Plot: A boy stands on a station platform as a train is about to leave. Should he go with his mother or stay with his father? Infinite possibilities arise from this decision. As long as he doesn't choose, anything is possible.");
-                console.log("Actors: Jared Leto, Sarah Polley, Diane Kruger, Linh Dan Pham, Rhys Ifans, Natasha Little");
-            }
-            else{
-                var omdbURL = "http://www.omdbapi.com/?t=" + dataArr[1] + "&y=&plot=short&apikey=trilogy";
-                request(omdbURL, function(error, response, body){
-        
-                    if (!error && response.statusCode === 200) {
-                        console.log("Title: " + JSON.parse(body).Title);
-                        console.log("The movie was made in: " + JSON.parse(body).Year);
-                        console.log("IMDB Rating: " + JSON.parse(body).imdbRating);
-                        var ratings = JSON.parse(body).Ratings;
-                        for(i=0;i<ratings.length;i++){
-                            if(ratings[i].Source == "Rotten Tomatoes"){
-                                console.log("Rotten Tomatoes Rating: " + ratings[i].Value);
-                            }
-                        }
-                        console.log("Produced in: " + JSON.parse(body).Country);
-                        console.log("Languages: " + JSON.parse(body).Language);
-                        console.log("Plot: " + JSON.parse(body).Plot);
-                        console.log("Actors: " + JSON.parse(body).Actors);
-                    }
-                
-                })
-            }
-        }
-    })
-}
-else{
-    console.log("Please input a correct command.");
-}
+        });
+    }
